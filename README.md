@@ -37,7 +37,7 @@ Setup
 
 The plugin sets up a Grails service bean called executorService so you need do nothing really. It delegates to an implementation of an Java [ExecutorService][] (not to be confused with a Grails Service) interface so read up on that for more info on what you can do with the executorService. It basically wraps another thread pool [ExecutorService][]. By default it uses the java [Executors][] utility class to setup the injected thread pool ExecutorService implementation. The default Grails executorService config looks like this 
 
-	executorService( grails.plugin.executor.PersistenceContextExecutorWrapper ) { bean->
+	executorService( PersistenceContextExecutorWrapper ) { bean->
 		bean.destroyMethod = 'destroy'
 		persistenceInterceptor = ref("persistenceInterceptor")
 		executor = Executors.newCachedThreadPool()
@@ -45,7 +45,7 @@ The plugin sets up a Grails service bean called executorService so you need do n
 
 You can override it and inject your own special thread pool executor using [Executors][] by overriding the bean in conf/spring/resources.groovy or the doWithSpring closure in your plugin.
 	
-	executorService(  grails.plugin.executor.PersistenceContextExecutorWrapper ) { bean->
+	executorService(  PersistenceContextExecutorWrapper ) { bean->
 		bean.destroyMethod = 'destroy' //keep this destroy method so it can try and clean up nicely
 		persistenceInterceptor = ref("persistenceInterceptor")
 		//this can be whatever from Executors (don't write your own and pre-optimize)
