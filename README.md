@@ -148,6 +148,11 @@ TODOs
 
 * TODO - setup a wrapper so we can use a [ScheduledExecutorService][] too.
 
+Release Notes
+--------
+
+* 0.2 - released 2016-08-17
+    * First publicly announced version
 
 [ExecutorService]: http://download.oracle.com/javase/6/docs/api/java/util/concurrent/ExecutorService.html
 [Executors]: http://download.oracle.com/javase/6/docs/api/java/util/concurrent/Executors.html
