@@ -59,6 +59,8 @@ dependencies {
 }
 
 grailsPublish {
+    user = System.getenv("BINTRAY_USER") ?: project.hasProperty("bintrayUser") ? project.bintrayUser : ''
+    key = System.getenv("BINTRAY_KEY") ?: project.hasProperty("bintrayKey") ? project.bintrayKey : ''
     userOrg = 'uberall'
     githubSlug = 'uberall/grails-executor'
     license {
