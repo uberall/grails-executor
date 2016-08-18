@@ -9,7 +9,7 @@ Summary
 This grails plugin incorporates the java concurrency Executor Framework into a plugin so your grails app can take advantage of asynchronous (background thread / concurrent) processing. The main need for this as opposed to just using an [ExecutorService][] from [Executors][] is that we need to wrap the calls so there is a Hibernate or other Data provider session bound to the thread. 
 This uses the following pattern to wrap Runnable/Closures so they get a session for whatever Gorm you are using. Hibernate being the default but this is also tested with Mongo (no heavily)  See the info on the [PersistenceContextInterceptor][] grails bean for more info
 
-	//injected spring bean
+	// injected spring bean
 	PersistenceContextInterceptor persistenceInterceptor
 	
 	protected wrap(Closure wrapped) {
@@ -32,30 +32,49 @@ and here are few good write up on groovy concurrency
 and a slide show  
 <http://www.slideshare.net/paulk_asert/groovy-and-concurrency-paul-king>
 
+Installation
+--------
+
+Edit build.gradle, by adding the following:
+
+```groovy
+repositories {
+    ...
+    maven { url "http://dl.bintray.com/uberall/plugins" }
+    ...
+}
+
+dependencies {
+    ...
+    compile 'org.grails.plugins:grails-executor:0.2'
+    ...
+}
+```
+
 Setup
 -------
 
 The plugin sets up a Grails service bean called executorService so you need do nothing really. It delegates to an implementation of an Java [ExecutorService][] (not to be confused with a Grails Service) interface so read up on that for more info on what you can do with the executorService. It basically wraps another thread pool [ExecutorService][]. By default it uses the java [Executors][] utility class to setup the injected thread pool ExecutorService implementation. The default Grails executorService config looks like this 
 
-	executorService( PersistenceContextExecutorWrapper ) { bean->
-		bean.destroyMethod = 'destroy'
-		persistenceInterceptor = ref("persistenceInterceptor")
-		executor = Executors.newCachedThreadPool()
-	}
+        executorService(PersistenceContextExecutorWrapper) { bean ->
+            bean.destroyMethod = 'destroy'
+            persistenceInterceptor = ref("persistenceInterceptor")
+            executor = Executors.newCachedThreadPool()
+        }
 
 You can override it and inject your own special thread pool executor using [Executors][] by overriding the bean in conf/spring/resources.groovy or the doWithSpring closure in your plugin.
 	
-	executorService(  PersistenceContextExecutorWrapper ) { bean->
-		bean.destroyMethod = 'destroy' //keep this destroy method so it can try and clean up nicely
-		persistenceInterceptor = ref("persistenceInterceptor")
-		//this can be whatever from Executors (don't write your own and pre-optimize)
-		executor = Executors.newCachedThreadPool(new YourSpecialThreadFactory()) 
-	}
+        executorService(PersistenceContextExecutorWrapper) { bean ->
+            bean.destroyMethod = 'destroy'
+            persistenceInterceptor = ref("persistenceInterceptor")
+	    // this can be whatever from Executors (don't write your own and pre-optimize)
+	    executor = Executors.newCachedThreadPool(new YourSpecialThreadFactory()) 
+        }
 
 Usage
 ------
 
-You can inject the executorService into any bean. Its a [PersistenceContextExecutorWrapper][] that delegates any calls to a concrete [ExecutorService][] implementation so, again, see the api for more on what you can do. Remember that a [Closure][] is a [Runnable][] so you can pass it to any of the methods that accept a runnable. A great example exists [here on the groovy site](http://groovy.codehaus.org/Concurrency+with+Groovy)
+You can inject the executorService into any bean. It's a [PersistenceContextExecutorWrapper][] that delegates any calls to a concrete [ExecutorService][] implementation.Remember that a [Closure][] is a [Runnable][] so you can pass it to any of the methods that accept a runnable. A great example exists [here on the groovy site](http://groovy.codehaus.org/Concurrency+with+Groovy)
 
 The plugin adds shortcut methods to any service/controller/domain artifacts.
 
