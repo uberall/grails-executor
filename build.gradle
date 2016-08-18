@@ -69,6 +69,4 @@ grailsPublish {
     title = "Grails-Executor"
     desc = "Concurrency / asynchronous / background process plugin"
     developers = ["bp-FLN": "Florian Langenhahn"]
-    portalUser = ""
-    portalPassword = ""
 }
