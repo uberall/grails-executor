@@ -46,7 +46,7 @@ class PersistenceContextExecutorWrapper {
 	}
 
 	public <T> Future<T> submit(Callable<T> task) {
-		executor.submit(inPersistence(task))
+		executor.submit(inPersistence(task) as Callable<T>)
 	}
 
 	public <T> Future<T> submitWithoutPersistence(Callable<T> task) {
@@ -102,7 +102,7 @@ class PersistenceContextExecutorWrapper {
 	void destroy() {
 		executor.shutdown()
 		if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
-            log.warn "ExecutorService did not shutdown in 2 seconds. Forcing shutdown of any scheduled tasks"
+            log.warn "ExecutorService did not shutdown in 5 seconds. Forcing shutdown of any scheduled tasks"
 			executor.shutdownNow()
 		}
 	}
