@@ -172,6 +172,8 @@ Release Notes
 
 * 0.2 - released 2016-08-17
     * First publicly announced version
+* 0.4 - released 2016-08-19
+    * Fixed "submit returns void future"
 
 [ExecutorService]: http://download.oracle.com/javase/6/docs/api/java/util/concurrent/ExecutorService.html
 [Executors]: http://download.oracle.com/javase/6/docs/api/java/util/concurrent/Executors.html
