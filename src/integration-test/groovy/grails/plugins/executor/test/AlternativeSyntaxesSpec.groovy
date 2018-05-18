@@ -36,7 +36,7 @@ class AlternativeSyntaxesSpec extends Specification {
 
         then:
         future instanceof Future
-        future.get(3, TimeUnit.SECONDS)
+        future.get(3, TimeUnit.SECONDS) == 2
     }
 
 }

@@ -45,11 +45,11 @@ class PersistenceContextExecutorWrapper {
 		executor.execute(command)
 	}
 
-	public <T> Future<T> submit(Callable<T> task) {
-		executor.submit(inPersistence(task) as Callable<T>)
+	def <T> Future<T> submit(Callable<T> task) {
+		executor.submit(inPersistence(task as Callable<T>))
 	}
 
-	public <T> Future<T> submitWithoutPersistence(Callable<T> task) {
+	def <T> Future<T> submitWithoutPersistence(Callable<T> task) {
 		executor.submit(task)
 	}
 
@@ -61,31 +61,31 @@ class PersistenceContextExecutorWrapper {
 		executor.submit(task)
 	}
 
-	public <T> Future<T> submit(Runnable task, T result) {
+	def <T> Future<T> submit(Runnable task, T result) {
 		executor.submit(inPersistence(task), result)
 	}
 
-	public <T> Future<T> submitWithoutPersistence(Runnable task, T result) {
+	def <T> Future<T> submitWithoutPersistence(Runnable task, T result) {
 		executor.submit(task, result)
 	}
 
-	Future withPersistence(Closure task) {
-        executor.submit(inPersistence(task))
+	def <T> Future<T> withPersistence(Closure<T> task) {
+        executor.submit(inPersistence(task as Callable<T>))
 	}
 
-	Future withoutPersistence(Closure task) {
-		executor.submit(task as Callable)
+	def <T> Future<T> withoutPersistence(Closure<T> task) {
+		executor.submit(task as Callable<T>)
 	}
 
-	Future leftShift(Closure task) {
+	def <T> Future<T> leftShift(Closure<T> task) {
 		withPersistence(task)
 	}
 
-	Callable inPersistence(Closure task) {
-		inPersistence(task as Callable)
+	def <T> Callable<T> inPersistence(Closure<T> task) {
+		inPersistence(task as Callable<T>)
 	}
 
-	Callable inPersistence(Callable task) {
+	def <T> Callable<T> inPersistence(Callable<T> task) {
 		Assert.state(persistenceInterceptor != null,
 			"Unable to create persistence context wrapped callable because persistenceInterceptor is null")
 

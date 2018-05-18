@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "0.4"
+version "0.4.1"
 group "org.grails.plugins"
 
 apply plugin: "org.grails.grails-plugin"
@@ -69,4 +69,24 @@ grailsPublish {
     title = "Grails-Executor"
     desc = "Concurrency / asynchronous / background process plugin"
     developers = ["bp-FLN": "Florian Langenhahn"]
+}
+
+// For publishing snapshots (either to private artifactory or OSS)
+publishing {
+    repositories {
+        maven {
+            def publishUrl = project.hasProperty("artifactoryPublishUrl") ? project.artifactoryPublishUrl : ''
+            def repoKey = project.version.endsWith("SNAPSHOT") ? 'plugins-snapshot-local' : 'plugins-release-local'
+            url = "$publishUrl/$repoKey"
+
+            credentials {
+                credentials {
+                    def u = project.hasProperty("artifactoryPublishUsername") ? project.artifactoryPublishUsername : ''
+                    def p = project.hasProperty("artifactoryPublishPassword") ? project.artifactoryPublishPassword : ''
+                    username = u
+                    password = p
+                }
+            }
+        }
+    }
 }

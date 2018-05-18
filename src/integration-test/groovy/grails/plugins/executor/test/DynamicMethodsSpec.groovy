@@ -45,7 +45,7 @@ class DynamicMethodsSpec extends Specification {
         reloadClass()
 
         then:
-        !artifactHasExecutorMethods
+        artifactHasExecutorMethods
 
         when:
         informOfClassChange()
@@ -66,7 +66,9 @@ class DynamicMethodsSpec extends Specification {
     }
 
     protected getArtifactHasExecutorMethods() {
-        createArtifact().respondsTo("runAsync", Runnable).size() > 0
+        def obj = createArtifact()
+        def list = obj.respondsTo("runAsync", Runnable)
+        list.size() > 0
     }
 
     protected createArtifact() {

@@ -57,13 +57,13 @@ class ExecutorGrailsPlugin extends Plugin {
 
     private static void addAsyncMethods(GrailsApplication application, clazz) {
         clazz.metaClass.runAsync = { Runnable runnable ->
-            application.mainContext.executorService.withPersistence(runnable)
+            application.mainContext.executorService.submit(runnable)
         }
         clazz.metaClass.callAsync = { Closure closure ->
             application.mainContext.executorService.withPersistence(closure)
         }
         clazz.metaClass.callAsync = { Runnable runnable, returnval ->
-            application.mainContext.executorService.withPersistence(runnable, returnval)
+            application.mainContext.executorService.submit(runnable, returnval)
         }
     }
 

@@ -25,7 +25,7 @@ import java.util.concurrent.Callable
  */
 class PersistenceContextCallableWrapper<T> extends PersistenceContextWrapper implements Callable<T> {
 
-	private final Callable callable
+	private final Callable<T> callable
 
 	PersistenceContextCallableWrapper(PersistenceContextInterceptor persistenceInterceptor, Callable<T> callable) {
 		super(persistenceInterceptor)
@@ -33,7 +33,7 @@ class PersistenceContextCallableWrapper<T> extends PersistenceContextWrapper imp
 	}
 
 	T call() {
-        wrap { callable.call() } as T
+        wrap { callable.call() }
 	}
 
 }

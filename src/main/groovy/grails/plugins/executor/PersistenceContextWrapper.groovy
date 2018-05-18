@@ -29,7 +29,7 @@ class PersistenceContextWrapper {
 		this.persistenceInterceptor = persistenceInterceptor
 	}
 
-	protected void wrap(Closure wrapped) {
+	protected <T> T wrap(Closure<T> wrapped) {
 		persistenceInterceptor.init()
 
 		try {
