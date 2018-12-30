@@ -1,4 +1,7 @@
 # grails-executor
+
+*DEPRECATION NOTE: this plugin is not maintained anymore, as grails 3.x already has a feature build-in which allows creating a thread that has a session bound. Check out the grails-async documentation for more information: https://async.grails.org/*
+
 Concurrency / asynchronous / background process plugin for grails 3
 
 grails2 version can be found here: https://github.com/basejump/grails-executor
